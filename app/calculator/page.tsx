@@ -146,7 +146,7 @@ export default function CalculatorPage() {
             size="lg"
             color={"secondary"}
             variant={"flat"}
-            onClick={() => setSelectedTab("tips")}
+            onClick={() => setSelectedTab("workers")}
           >
             Back
           </Button>
