@@ -1,5 +1,6 @@
 "use client";
 
+import { useTreeData } from "react-stately";
 import { title } from "@/components/primitives";
 import { Input } from "@nextui-org/input";
 import { Spacer } from "@nextui-org/spacer";
@@ -8,6 +9,7 @@ import { Tabs, Tab } from "@nextui-org/tabs";
 import {
   Button,
   ButtonGroup,
+  Divider,
   Table,
   TableBody,
   TableCell,
@@ -16,33 +18,6 @@ import {
   TableRow,
   getKeyValue,
 } from "@nextui-org/react";
-
-const rows = [
-  {
-    key: "1",
-    name: "Tony Reichert",
-    role: "CEO",
-    status: "Active",
-  },
-  {
-    key: "2",
-    name: "Zoey Lang",
-    role: "Technical Lead",
-    status: "Paused",
-  },
-  {
-    key: "3",
-    name: "Jane Fisher",
-    role: "Senior Developer",
-    status: "Active",
-  },
-  {
-    key: "4",
-    name: "William Howard",
-    role: "Community Manager",
-    status: "Vacation",
-  },
-];
 
 const columns = [
   {
@@ -53,7 +28,34 @@ const columns = [
     key: "hours",
     label: "HOURS",
   },
+  {
+    key: "role",
+    label: "ROLE"
+  }
 ];
+
+const rows = [
+  {
+    key: "1",
+    name: "Big Sean",
+    hours: 7.5,
+    role: 'bar'
+  },
+  {
+    key: "2",
+    name: "Big Pissa",
+    hours: 5,
+    role: 'door'
+  },
+  {
+    key: "3",
+    name: "Dat bitch Jill",
+    hours: 4,
+    role: 'bar'
+  },
+];
+
+
 
 export default function CalculatorPage() {
   const [totalTips, setTotalTips] = useState<string>("");
@@ -61,8 +63,6 @@ export default function CalculatorPage() {
   useEffect(() => {
     console.log(totalTips);
   }, [totalTips]);
-
-  const dynamicRows: [{ name: string; hours: number }] = [];
 
   return (
     <div>
@@ -81,7 +81,7 @@ export default function CalculatorPage() {
             className="w-40 mx-auto"
             type={"numeric"}
             placeholder={"0"}
-            variant={"flat"}
+            size="lg"
             value={totalTips}
             onInput={(e) => setTotalTips(e.currentTarget.value)}
             startContent={
@@ -103,7 +103,7 @@ export default function CalculatorPage() {
           </Button>
         </Tab>
         <Tab key="workers" title="2. Workers">
-          <Table>
+          <Table isStriped>
             <TableHeader columns={columns}>
               {(column) => (
                 <TableColumn key={column.key}>{column.label}</TableColumn>
@@ -113,7 +113,7 @@ export default function CalculatorPage() {
               {(item) => (
                 <TableRow key={item.key}>
                   {(columnKey) => (
-                    <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                    <TableCell className="text-left">{getKeyValue(item, columnKey)}</TableCell>
                   )}
                 </TableRow>
               )}
@@ -140,7 +140,7 @@ export default function CalculatorPage() {
           </ButtonGroup>
         </Tab>
         <Tab key="result" title="3. Result">
-          <h1 className={title({ color: 'foreground' })}>Results</h1>
+          <h1 className={title({ color: "foreground" })}>Results</h1>
           <Spacer y={5} />
           <Button
             size="lg"
