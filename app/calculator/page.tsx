@@ -72,6 +72,7 @@ export default function CalculatorPage() {
         variant={"underlined"}
         selectedKey={selectedTab}
         disabledKeys={totalTips ? [] : ["workers", "result"]}
+        // onClick={(e) => e.preventDefault()}
       >
         <Tab key="tips" title="1. Tips">
           <h1 className={title()}>What&apos;s the total tip amount?</h1>
@@ -122,8 +123,8 @@ export default function CalculatorPage() {
           <ButtonGroup>
             <Button
               size="lg"
-              color={'secondary'}
-              variant={'flat'}
+              color={"secondary"}
+              variant={"flat"}
               onClick={() => setSelectedTab("tips")}
             >
               Back
@@ -138,7 +139,18 @@ export default function CalculatorPage() {
             </Button>
           </ButtonGroup>
         </Tab>
-        <Tab key="result" title="3. Result"></Tab>
+        <Tab key="result" title="3. Result">
+          <h1 className={title({ color: 'foreground' })}>Results</h1>
+          <Spacer y={5} />
+          <Button
+            size="lg"
+            color={"secondary"}
+            variant={"flat"}
+            onClick={() => setSelectedTab("tips")}
+          >
+            Back
+          </Button>
+        </Tab>
       </Tabs>
     </div>
   );
