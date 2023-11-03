@@ -10,6 +10,7 @@ import {
   Button,
   ButtonGroup,
   Divider,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -59,10 +60,29 @@ const rows = [
 
 export default function CalculatorPage() {
   const [totalTips, setTotalTips] = useState<string>("");
-  const [selectedTab, setSelectedTab] = useState<string>("tips");
   useEffect(() => {
     console.log(totalTips);
   }, [totalTips]);
+  
+  // for <Tabs> functionality
+  const [selectedTab, setSelectedTab] = useState<string>("tips");
+  
+  const [newName, setNewName] = useState<string>("");
+  const [newHours, setNewHours] = useState<string>('');
+  const [newIsBar, setNewIsBar] = useState<string>('false');
+  
+  const handleNewWorker = (newName: string, newHours: string, newIsBar: string) => {
+    const name = newName
+    const hours = parseInt(newHours)
+    const isBar = Boolean(newIsBar)
+    
+    rows.push({ key: (rows.length + 1).toString(), name: name, hours: hours, role: isBar ? 'bar' : 'door' })
+    console.log(rows)
+    // setting the values to empty re-renders the page, updating the view of the Table in the process
+    setNewName('')
+    setNewHours('')
+    setNewIsBar('')
+  }
 
   return (
     <div>
@@ -103,6 +123,32 @@ export default function CalculatorPage() {
           </Button>
         </Tab>
         <Tab key="workers" title="2. Workers">
+          <div className="grid grid-cols-4">
+            <Input
+              className="cols-3"
+              isRequired
+              label="Name"
+              value={newName}
+              placeholder="Enter a name"
+              onChange={(e) => setNewName(e.currentTarget.value)}
+            />
+            <Input
+              isRequired
+              label="Hours"
+              type="tel"
+              inputMode="decimal"
+              value={newHours}
+              placeholder="0"
+              onChange={(e) => setNewHours(e.currentTarget.value)}
+            />
+            <Switch className="flex flex-row-reverse gap-1" value={newIsBar}>
+              <div className="flex flex-col">
+                <p>Bar</p>
+                <p>Door</p>
+              </div>
+            </Switch>
+            <Button size='sm' onClick={() => handleNewWorker(newName, newHours, newIsBar)}>Add</Button>
+          </div>
           <Table isStriped>
             <TableHeader columns={columns}>
               {(column) => (
@@ -113,7 +159,9 @@ export default function CalculatorPage() {
               {(item) => (
                 <TableRow key={item.key}>
                   {(columnKey) => (
-                    <TableCell className="text-left">{getKeyValue(item, columnKey)}</TableCell>
+                    <TableCell className="text-left">
+                      {getKeyValue(item, columnKey)}
+                    </TableCell>
                   )}
                 </TableRow>
               )}
